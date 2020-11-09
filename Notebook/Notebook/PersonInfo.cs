@@ -160,7 +160,13 @@ namespace Notebook
 
         public void ShowAllInfo(PersonInfo personInfo)
         {
-            throw new NotImplementedException();
+            Console.Write($"ID: {personInfo.Id} Фамилия: {personInfo.Surname} Имя: {personInfo.Name} ");
+            if (!String.IsNullOrEmpty(personInfo.SecondName)) { Console.Write($"Отчество: {personInfo.SecondName} "); }
+            Console.Write($"Телефон +7{personInfo.Phone} ");
+            if (!String.IsNullOrEmpty(personInfo.Birthday)) { Console.Write($"Дата рождения: {personInfo.Birthday} "); }
+            if (!String.IsNullOrEmpty(personInfo.Company)) { Console.Write($"Компания: {personInfo.Company} "); }
+            if (!String.IsNullOrEmpty(personInfo.Position)) { Console.Write($"Должность: {personInfo.Position} "); }
+            if (!String.IsNullOrEmpty(personInfo.Notes)) { Console.Write($"Заметки: {personInfo.Notes} "); }
         }
 
         public void ShowShortInfo(PersonInfo personInfo)
@@ -178,23 +184,9 @@ namespace Notebook
             personsList.Sort();
             ShowAllPersons();
             Console.WriteLine("Введите ID человека для удаления его записи");
-            int id = 0;
-            bool success = true;
-            while (!success)
-            {
-                success = Int32.TryParse(Console.ReadLine(), out int index);
-                if (success) { id = index; }
-                else { Console.WriteLine("Введено неверное значение. Попробуйте еще раз"); }
-            }
-            if (personsList.Contains(personsList[id]))
-            {
-                personsList.Remove(personsList[id]);
-            }
-            else
-            {
-                Console.WriteLine($"В списке нет человека с индексом {id}");
-            }
-            
+            string inputValue = Console.ReadLine();
+            int id = CheckForIntIndex(inputValue);
+            personsList.Remove(personsList[id]);
         }
 
         public void ShowAllPersons()
@@ -204,6 +196,40 @@ namespace Notebook
             {
                 ShowShortInfo(personInfo);
             }
+        }
+
+        public int CheckForIntIndex(String inputValue)
+        {
+            int id = 0;
+            bool success = true;
+            while (!success)
+            {
+                success = Int32.TryParse(inputValue, out int index);
+                if (success) 
+                {
+                    if (!personsList.Contains(personsList[id]))
+                    {
+                        Console.WriteLine($"В списке нет человека с индексом {id}");
+                    }
+                    else
+                    {
+                        id = index;
+                    }
+                }
+                else { Console.WriteLine("Введено неверное значение. Попробуйте еще раз"); }
+            }
+            
+            return id;
+        }
+
+        public PersonInfo FindPersonById()
+        {
+            personsList.Sort();
+            ShowAllPersons();
+            Console.WriteLine("Введите индекс нужного человека");
+            string inputValue = Console.ReadLine();
+            int id = CheckForIntIndex(inputValue);
+            return personsList[id];
         }
 
         #endregion
