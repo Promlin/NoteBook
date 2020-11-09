@@ -8,6 +8,8 @@ namespace Notebook
 {
     public class PersonInfo : IPersonInfo
     {
+        #region values
+        public int Id { get; set; }
         public string Surname { get; set; }
         public string Name { get; set; }
         public string SecondName { get; set; }
@@ -17,13 +19,20 @@ namespace Notebook
         public string Position { get; set; }
         public string Notes { get; set; }
 
+        public int personsCount = 0;
+        #endregion
+
         public List<PersonInfo> personsList = new List<PersonInfo>();
+
+        #region Metods
 
         public PersonInfo(string surname, string name, int phone)
         {
+            Id = personsCount;
             Surname = surname;
             Name = name;
             Phone = phone;
+            personsCount++;
         }
 
         public void AddPerson()
@@ -52,7 +61,7 @@ namespace Notebook
 
         public void ShowShortInfo(PersonInfo personInfo)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"ID: {personInfo.Id} Фамилия: {personInfo.Surname} Имя: {personInfo.Name} +7{personInfo.Phone}");
         }
 
         public void CorrectInfo()
@@ -62,12 +71,36 @@ namespace Notebook
 
         public void DeleteInfo()
         {
-            throw new NotImplementedException();
+            personsList.Sort();
+            ShowAllPersons();
+            Console.WriteLine("Введите ID человека для удаления его записи");
+            int id = 0;
+            bool success = true;
+            while (!success)
+            {
+                success = Int32.TryParse(Console.ReadLine(), out int index);
+                if (success) { id = index; }
+                else { Console.WriteLine("Введено неверное значение. Попробуйте еще раз"); }
+            }
+            if (personsList.Contains(personsList[id]))
+            {
+                personsList.Remove(personsList[id]);
+            }
+            else
+            {
+                Console.WriteLine($"В списке нет человека с индексом {id}");
+            }
+            
         }
 
         public void ShowAllPersons()
         {
-            throw new NotImplementedException();
+            personsList.Sort();
+            foreach(PersonInfo personInfo in personsList)
+            {
+                ShowShortInfo(personInfo);
+            }
         }
+        #endregion
     }
 }
