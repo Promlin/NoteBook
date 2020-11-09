@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Notebook
 {
-    public class PersonInfo : IPersonInfo
+    public class PersonInfo 
     {
         #region values
         public int Id { get; set; }
@@ -22,7 +22,7 @@ namespace Notebook
         public int personsCount = 0;
         #endregion
 
-        public List<PersonInfo> personsList = new List<PersonInfo>();
+        public static List<PersonInfo> personsList = new List<PersonInfo>();
 
         #region Metods
 
@@ -35,7 +35,7 @@ namespace Notebook
             personsCount++;
         }
 
-        public void AddPerson()
+        public static void AddPerson()
         {
             Console.WriteLine("Введите фамилию человека: ");
             string surname = Console.ReadLine();
@@ -52,55 +52,49 @@ namespace Notebook
             }
             PersonInfo personInfo = new PersonInfo(surname, name, phone);
 
-            Console.WriteLine("Вы хотите ввести Отчество?  Нет - 0, Да - 1");
-            string inputString = Console.ReadLine();
-            int answer = CheckForInputValue(inputString);
-            if(answer == 1)
-            {
-                Console.WriteLine("Введите отчество рождения:");
-                personInfo.SecondName = Console.ReadLine();
-            }
+            Console.WriteLine("Предлагаем Вам ввести дополнительные данные, для выхода введите 0");
 
-            Console.WriteLine("Вы хотите ввести дату рождения?  Нет - 0, Да - 1");
-            inputString = Console.ReadLine();
-            answer = CheckForInputValue(inputString);
-            if (answer == 1)
+            bool end = false;
+            while (!end)
             {
-                Console.WriteLine("Введите дату рождения:");
-                personInfo.Birthday = Console.ReadLine();
-            }
-
-            Console.WriteLine("Вы хотите ввести организацию?  Нет - 0, Да - 1");
-            inputString = Console.ReadLine();
-            answer = CheckForInputValue(inputString);
-            if (answer == 1)
-            {
-                Console.WriteLine("Введите организацию:");
-                personInfo.Company = Console.ReadLine();
-            }
-
-            Console.WriteLine("Вы хотите ввести должность?  Нет - 0, Да - 1");
-            inputString = Console.ReadLine();
-            answer = CheckForInputValue(inputString);
-            if (answer == 1)
-            {
-                Console.WriteLine("Введите должность:");
-                personInfo.Position = Console.ReadLine();
-            }
-
-            Console.WriteLine("Вы хотите ввести дополнительные заметки?  Нет - 0, Да - 1");
-            inputString = Console.ReadLine();
-            answer = CheckForInputValue(inputString);
-            if (answer == 1)
-            {
-                Console.WriteLine("Введите заметки:");
-                personInfo.Notes = Console.ReadLine();
+                Console.WriteLine("Введите нужное число для редактирования: 1 - Отчество, " +
+                    "2 - Дата рождения, 3 - Организация, 4 - Должность, 5 - Заметки. Для завершения введите 0");
+                string inputNumber = Console.ReadLine();
+                switch (inputNumber)
+                {
+                    case ("0"):
+                        end = true;
+                        break;
+                    case ("1"):
+                        Console.WriteLine("Введите значение отчества");
+                        personInfo.SecondName = Console.ReadLine();
+                        break;
+                    case ("2"):
+                        Console.WriteLine("Введите значение дня рождения");
+                        personInfo.Birthday = Console.ReadLine();
+                        break;
+                    case ("3"):
+                        Console.WriteLine("Введите значение организации");
+                        personInfo.Company = Console.ReadLine();
+                        break;
+                    case ("4"):
+                        Console.WriteLine("Введите значение должности");
+                        personInfo.Position = Console.ReadLine();
+                        break;
+                    case ("5"):
+                        Console.WriteLine("Введите заметки");
+                        personInfo.Notes = Console.ReadLine();
+                        break;
+                    default:
+                        Console.WriteLine("Введено неверное значение. Попробуйте снвоа");
+                        break;
+                }
             }
 
             personsList.Add(personInfo);
         }
 
-        public void ShowAllInfo(PersonInfo personInfo)
+        public static void ShowAllInfo(PersonInfo personInfo)
         {
             Console.Write($"ID: {personInfo.Id} Фамилия: {personInfo.Surname} Имя: {personInfo.Name} ");
             if (!String.IsNullOrEmpty(personInfo.SecondName)) { Console.Write($"Отчество: {personInfo.SecondName} "); }
@@ -109,14 +103,15 @@ namespace Notebook
             if (!String.IsNullOrEmpty(personInfo.Company)) { Console.Write($"Компания: {personInfo.Company} "); }
             if (!String.IsNullOrEmpty(personInfo.Position)) { Console.Write($"Должность: {personInfo.Position} "); }
             if (!String.IsNullOrEmpty(personInfo.Notes)) { Console.Write($"Заметки: {personInfo.Notes} "); }
+            Console.WriteLine();
         }
 
-        public void ShowShortInfo(PersonInfo personInfo)
+        public static void ShowShortInfo(PersonInfo personInfo)
         {
             Console.WriteLine($"ID: {personInfo.Id} Фамилия: {personInfo.Surname} Имя: {personInfo.Name} +7{personInfo.Phone}");
         }
 
-        public void CorrectInfo()
+        public static void CorrectInfo()
         {
             personsList.Sort();
             ShowAllPersons();
@@ -183,7 +178,7 @@ namespace Notebook
             
         }
 
-        public void DeleteInfo()
+        public static void DeleteInfo()
         {
             personsList.Sort();
             ShowAllPersons();
@@ -193,7 +188,7 @@ namespace Notebook
             personsList.Remove(personsList[id]);
         }
 
-        public void ShowAllPersons()
+        public static void ShowAllPersons()
         {
             personsList.Sort();
             foreach(PersonInfo personInfo in personsList)
@@ -202,7 +197,7 @@ namespace Notebook
             }
         }
 
-        public int CheckForIntIndex(String inputValue)
+        public static int CheckForIntIndex(String inputValue)
         {
             int id = 0;
             bool success = true;
@@ -226,7 +221,7 @@ namespace Notebook
             return id;
         }
 
-        public PersonInfo FindPersonById()
+        public static PersonInfo FindPersonById()
         {
             personsList.Sort();
             ShowAllPersons();
@@ -236,27 +231,6 @@ namespace Notebook
             return personsList[id];
         }
 
-        public int CheckForInputValue(string value)
-        {
-            bool success = false;
-            while (!success)
-            {
-                string answer = Console.ReadLine();
-                switch (answer)
-                {
-                    case ("0"):
-                        success = true;
-                        return 0;
-                    case ("1"):
-                        success = true;
-                        return 1;
-                    default:
-                        Console.WriteLine("Указано неверное значение, попробуйте еще раз");
-                        break;
-                }
-            }
-            return 0;
-        }
 
         #endregion
     }
