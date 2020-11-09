@@ -53,108 +53,48 @@ namespace Notebook
             PersonInfo personInfo = new PersonInfo(surname, name, phone);
 
             Console.WriteLine("Вы хотите ввести Отчество?  Нет - 0, Да - 1");
-            success = false;
-            while (!success)
+            string inputString = Console.ReadLine();
+            int answer = CheckForInputValue(inputString);
+            if(answer == 1)
             {
-                string answer = Console.ReadLine();
-                switch (answer)
-                {
-                    case ("0"):
-                        success = true;
-                        break;
-                    case ("1"):
-                        Console.WriteLine("Введите отчество:");
-                        personInfo.SecondName = Console.ReadLine();
-                        success = true;
-                        break;
-                    default:
-                        Console.WriteLine("Указано неверное значение, попробуйте еще раз");
-                        break;
-                }
+                Console.WriteLine("Введите отчество рождения:");
+                personInfo.SecondName = Console.ReadLine();
             }
 
             Console.WriteLine("Вы хотите ввести дату рождения?  Нет - 0, Да - 1");
-            success = false;
-            while (!success)
+            inputString = Console.ReadLine();
+            answer = CheckForInputValue(inputString);
+            if (answer == 1)
             {
-                string answer = Console.ReadLine();
-                switch (answer)
-                {
-                    case ("0"):
-                        success = true;
-                        break;
-                    case ("1"):
-                        Console.WriteLine("Введите дaту рождения:");
-                        personInfo.Birthday = Console.ReadLine();
-                        success = true;
-                        break;
-                    default:
-                        Console.WriteLine("Указано неверное значение, попробуйте еще раз");
-                        break;
-                }
+                Console.WriteLine("Введите дату рождения:");
+                personInfo.Birthday = Console.ReadLine();
             }
 
             Console.WriteLine("Вы хотите ввести организацию?  Нет - 0, Да - 1");
-            success = false;
-            while (!success)
+            inputString = Console.ReadLine();
+            answer = CheckForInputValue(inputString);
+            if (answer == 1)
             {
-                string answer = Console.ReadLine();
-                switch (answer)
-                {
-                    case ("0"):
-                        success = true;
-                        break;
-                    case ("1"):
-                        Console.WriteLine("Введите организацию:");
-                        personInfo.Company = Console.ReadLine();
-                        success = true;
-                        break;
-                    default:
-                        Console.WriteLine("Указано неверное значение, попробуйте еще раз");
-                        break;
-                }
+                Console.WriteLine("Введите организацию:");
+                personInfo.Company = Console.ReadLine();
             }
 
             Console.WriteLine("Вы хотите ввести должность?  Нет - 0, Да - 1");
-            success = false;
-            while (!success)
+            inputString = Console.ReadLine();
+            answer = CheckForInputValue(inputString);
+            if (answer == 1)
             {
-                string answer = Console.ReadLine();
-                switch (answer)
-                {
-                    case ("0"):
-                        success = true;
-                        break;
-                    case ("1"):
-                        Console.WriteLine("Введите должность:");
-                        personInfo.Position = Console.ReadLine();
-                        success = true;
-                        break;
-                    default:
-                        Console.WriteLine("Указано неверное значение, попробуйте еще раз");
-                        break;
-                }
+                Console.WriteLine("Введите должность:");
+                personInfo.Position = Console.ReadLine();
             }
 
             Console.WriteLine("Вы хотите ввести дополнительные заметки?  Нет - 0, Да - 1");
-            success = false;
-            while (!success)
+            inputString = Console.ReadLine();
+            answer = CheckForInputValue(inputString);
+            if (answer == 1)
             {
-                string answer = Console.ReadLine();
-                switch (answer)
-                {
-                    case ("0"):
-                        success = true;
-                        break;
-                    case ("1"):
-                        Console.WriteLine("Введите свои заметки:");
-                        personInfo.Notes = Console.ReadLine();
-                        success = true;
-                        break;
-                    default:
-                        Console.WriteLine("Указано неверное значение, попробуйте еще раз");
-                        break;
-                }
+                Console.WriteLine("Введите заметки:");
+                personInfo.Notes = Console.ReadLine();
             }
         }
 
@@ -176,7 +116,13 @@ namespace Notebook
 
         public void CorrectInfo()
         {
-            throw new NotImplementedException();
+            personsList.Sort();
+            ShowAllPersons();
+            Console.WriteLine("Введите ID человека для редактирования его записи");
+            string inputValue = Console.ReadLine();
+            int id = CheckForIntIndex(inputValue);
+
+            Console.WriteLine("");
         }
 
         public void DeleteInfo()
@@ -230,6 +176,28 @@ namespace Notebook
             string inputValue = Console.ReadLine();
             int id = CheckForIntIndex(inputValue);
             return personsList[id];
+        }
+
+        public int CheckForInputValue(string value)
+        {
+            bool success = false;
+            while (!success)
+            {
+                string answer = Console.ReadLine();
+                switch (answer)
+                {
+                    case ("0"):
+                        success = true;
+                        return 0;
+                    case ("1"):
+                        success = true;
+                        return 1;
+                    default:
+                        Console.WriteLine("Указано неверное значение, попробуйте еще раз");
+                        break;
+                }
+            }
+            return 0;
         }
 
         #endregion
