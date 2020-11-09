@@ -124,7 +124,63 @@ namespace Notebook
             string inputValue = Console.ReadLine();
             int id = CheckForIntIndex(inputValue);
 
-            Console.WriteLine("");
+            bool end = false;
+            while (!end)
+            {
+                Console.WriteLine("Введите нужное число для редактирования: 1 - Фамилия, 2 - Имя, 3 - Отчество, 4 - Номер телефона, " +
+                    "5 - Дата рождения, 6 - Организация, 7 - Должность, 8 - Заметки. Для завершения введите 0");
+                string inputNumber = Console.ReadLine();
+                switch (inputNumber)
+                {
+                    case ("0"):
+                        end = true;
+                        break;
+                    case ("1"):
+                        Console.WriteLine("Введите новое значение фамилии");
+                        personsList[id].Surname = Console.ReadLine();
+                        break;
+                    case ("2"):
+                        Console.WriteLine("Введите новое значение имени");
+                        personsList[id].Name = Console.ReadLine();
+                        break;
+                    case ("3"):
+                        Console.WriteLine("Введите новое значение отчества");
+                        personsList[id].SecondName = Console.ReadLine();
+                        break;
+                    case ("4"):
+                        Console.WriteLine("Введите новое значение телефона");
+                        bool successPhone = false;
+                        int phone = 0;
+                        while (successPhone != true)
+                        {
+                            successPhone = Int32.TryParse(Console.ReadLine(), out int number);
+                            if (!successPhone) { Console.WriteLine("Номер введен некорректно. Номер должен состоять только из цифр, записанных без пробела"); }
+                            else { phone = number; }
+                        }
+                        personsList[id].Phone = phone;
+                        break;
+                    case ("5"):
+                        Console.WriteLine("Введите новое значение даты рождения");
+                        personsList[id].Birthday = Console.ReadLine();
+                        break;
+                    case ("6"):
+                        Console.WriteLine("Введите новое значение организации");
+                        personsList[id].Company = Console.ReadLine();
+                        break;
+                    case ("7"):
+                        Console.WriteLine("Введите новое значение должности");
+                        personsList[id].Position = Console.ReadLine();
+                        break;
+                    case ("8"):
+                        Console.WriteLine("Введите новое значение заметок");
+                        personsList[id].Notes = Console.ReadLine();
+                        break;
+                    default:
+                        Console.WriteLine("Введено неверное значение. Попробуйте снвоа");
+                        break;
+                }
+            }
+            
         }
 
         public void DeleteInfo()
