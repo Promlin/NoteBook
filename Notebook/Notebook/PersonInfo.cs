@@ -96,6 +96,8 @@ namespace Notebook
                 Console.WriteLine("Введите заметки:");
                 personInfo.Notes = Console.ReadLine();
             }
+
+            personsList.Add(personInfo);
         }
 
         public void ShowAllInfo(PersonInfo personInfo)
